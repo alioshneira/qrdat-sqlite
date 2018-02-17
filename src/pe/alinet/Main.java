@@ -20,7 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import pe.alinet.barcodelist.BarcodeListService;
-import pe.alinet.frames.BarcodeReaderFrame;
+import pe.alinet.barcodelist.BarcodeReaderFrame;
 import pe.alinet.usuarios.Usuario;
 import pe.alinet.usuarios.UsuarioService;
 

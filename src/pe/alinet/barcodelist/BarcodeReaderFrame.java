@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pe.alinet.frames;
+package pe.alinet.barcodelist;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
@@ -40,7 +40,7 @@ import java.util.logging.Logger;
 import javax.swing.Timer;
 import pe.alinet.barcodelist.BarcodeList;
 import pe.alinet.barcodelist.BarcodeListService;
-import pe.alinet.frames.util.DateTableCellRenderer;
+import pe.alinet.util.DateTableCellRenderer;
 import pe.alinet.usuarios.Usuario;
 import pe.alinet.usuarios.UsuarioService;
 
@@ -114,7 +114,6 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QRDAT 4.0");
-        setPreferredSize(new java.awt.Dimension(472, 600));
 
         pMain.setLayout(new java.awt.BorderLayout());
 

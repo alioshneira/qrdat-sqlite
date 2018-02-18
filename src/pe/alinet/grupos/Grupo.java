@@ -14,86 +14,62 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pe.alinet.usuarios;
+package pe.alinet.grupos;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import pe.alinet.grupos.Grupo;
 
 /**
  *
  * @author Aliosh Neira <aliosh2006 at gmail.com>
  */
 @Entity
-public class Usuario implements Serializable {
+public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    private String id;
-
-    private String username;
+    private String groupname;
     
-    @ManyToOne
-    private Grupo grupo;
+    private String groupdesc;
     
-    public Usuario(String id, String username) {
-        this.id = id;
-        this.username = username;
-    }
-
-    public Usuario(String id, String username, Grupo grupo) {
-        this.id = id;
-        this.username = username;
-        this.grupo = grupo;
-    }
-
     
-    public Usuario() {
-    }
-    
-    public String getId() {
-        return id;
+
+    public String getGroupname() {
+        return groupname;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setGroupname(String groupname) {
+        this.groupname = groupname;
     }
 
-    public String getUsername() {
-        return username;
+    public String getGroupdesc() {
+        return groupdesc;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Grupo getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
+    public void setGroupdesc(String groupdesc) {
+        this.groupdesc = groupdesc;
     }
 
     
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (groupname != null ? groupname.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+        if (!(object instanceof Grupo)) {
             return false;
         }
-        Usuario other = (Usuario) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        Grupo other = (Grupo) object;
+        if ((this.groupname == null && other.groupname != null) || (this.groupname != null && !this.groupname.equals(other.groupname))) {
             return false;
         }
         return true;
@@ -101,7 +77,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return id + " - " + username;
+        return groupname;
     }
     
 }

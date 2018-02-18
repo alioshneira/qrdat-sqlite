@@ -4,12 +4,14 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>pe.alinet.usuarios.Usuario</class>
     <class>pe.alinet.barcodelist.BarcodeList</class>
+    <class>pe.alinet.grupos.Grupo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:qrdat.sqlite"/>
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="eclipselink.target-database" value="pe.alinet.util.SQLitePlatform"/>
     </properties>
   </persistence-unit>
 </persistence>

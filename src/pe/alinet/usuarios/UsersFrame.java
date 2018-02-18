@@ -57,6 +57,8 @@ public class UsersFrame extends javax.swing.JFrame {
         columnBinding.setColumnName("Código");
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${username}"));
         columnBinding.setColumnName("Apellidos y Nombres");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${grupo}"));
+        columnBinding.setColumnName("Grupo");
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane1.setViewportView(jTable1);

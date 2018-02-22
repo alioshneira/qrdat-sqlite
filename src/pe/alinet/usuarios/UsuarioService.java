@@ -19,6 +19,8 @@ package pe.alinet.usuarios;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import pe.alinet.grupos.Grupo;
+import pe.alinet.grupos.GrupoService;
 
 /**
  *
@@ -28,10 +30,18 @@ public class UsuarioService {
     
     
     public static Usuario add(String id, String username){
-        Usuario u = new Usuario(id, username);
+        Grupo g = GrupoService.getGroupByName("DEFAULT");
+        Usuario u = new Usuario(id, username, g);
         persist(u);
         return u;
     }
+
+    public static Usuario add(String id, String username, Grupo g){
+        Usuario u = new Usuario(id, username, g);
+        persist(u);
+        return u;
+    }
+
     
     public static Usuario getById(String id){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("QRdatPU");

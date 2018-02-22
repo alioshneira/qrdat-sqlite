@@ -27,7 +27,9 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -71,8 +73,9 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
 
         WebcamPanel webcampanel = new WebcamPanel(webcam);
         webcampanel.setMirrored(true);
+        webcampanel.setSize(size);
+        System.out.println(size);
         pMain.add(webcampanel,BorderLayout.CENTER);
-        
         executor.execute(this);
         
     }
@@ -109,6 +112,8 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
         jLabel1 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         pInferior = new javax.swing.JPanel();
+        pMensaje = new javax.swing.JPanel();
+        lbMensaje = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbBarcodeList = new javax.swing.JTable();
 
@@ -144,11 +149,34 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
         pMain.add(pSuperior, java.awt.BorderLayout.PAGE_START);
 
         pInferior.setPreferredSize(new java.awt.Dimension(452, 140));
-        pInferior.setLayout(new javax.swing.BoxLayout(pInferior, javax.swing.BoxLayout.LINE_AXIS));
+        pInferior.setLayout(new javax.swing.BoxLayout(pInferior, javax.swing.BoxLayout.Y_AXIS));
 
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(452, 140));
+        javax.swing.GroupLayout pMensajeLayout = new javax.swing.GroupLayout(pMensaje);
+        pMensaje.setLayout(pMensajeLayout);
+        pMensajeLayout.setHorizontalGroup(
+            pMensajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 452, Short.MAX_VALUE)
+            .addGroup(pMensajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pMensajeLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(lbMensaje)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        pMensajeLayout.setVerticalGroup(
+            pMensajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 7, Short.MAX_VALUE)
+            .addGroup(pMensajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pMensajeLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(lbMensaje)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
-        tbBarcodeList.setFont(tbBarcodeList.getFont().deriveFont(tbBarcodeList.getFont().getSize()+5f));
+        pInferior.add(pMensaje);
+
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(452, 160));
+
+        tbBarcodeList.setFont(tbBarcodeList.getFont().deriveFont(tbBarcodeList.getFont().getSize()+2f));
         tbBarcodeList.setRowHeight(30);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, barcodeListList, tbBarcodeList);
@@ -179,7 +207,7 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pMain, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -189,13 +217,8 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        String barcode = this.txtCodigo.getText();
-        Usuario u = UsuarioService.getById(barcode);
-        if (u != null){
-            BarcodeListService.add(u);
-        }
-        this.txtCodigo.setText("");
-        refreshTable();
+        String codigo = this.txtCodigo.getText();
+        procesar(codigo);
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     /**
@@ -248,9 +271,11 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbMensaje;
     private javax.swing.JLabel lbTime;
     private javax.swing.JPanel pInferior;
     private javax.swing.JPanel pMain;
+    private javax.swing.JPanel pMensaje;
     private javax.swing.JPanel pSuperior;
     private javax.swing.JTable tbBarcodeList;
     private javax.swing.JTextField txtCodigo;
@@ -286,20 +311,18 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
                 LuminanceSource source = new BufferedImageLuminanceSource(image);
                 BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
                 Result result = null;
-                String text = null;
+                String codigo = null;
                 try {
                     result = new MultiFormatReader().decode(bitmap);
-                    text = result.getText();
-                    Usuario u = this.QRdatPUEntityManager.find(Usuario.class, text);
-                    BarcodeListService.add(u);
-                    this.refreshTable();
+                    codigo = result.getText();
+                    procesar(codigo);
                     
                 } catch (NotFoundException e) {
                         // fall thru, it means there is no QR code in image
                     //Logger.getLogger(QRScannerFrame.class.getName()).log(Level.FINEST, null, e);
                 }
 
-                if (text != null){
+                if (codigo != null){
 
                     //this.lbOut.setText(qrscanner.getText());
                     
@@ -321,5 +344,24 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
         Thread t = new Thread(r, "barcode-reader-panel");
         t.setDaemon(true);
         return t;
+    }
+    
+    private void procesar(String codigo){
+        
+        Usuario u = UsuarioService.getById(codigo);
+        if (u != null){
+            BarcodeListService.add(u);
+            this.lbMensaje.setText("Código: "+codigo);
+            this.lbMensaje.setForeground(Color.blue);
+        }
+        else {
+            this.lbMensaje.setText("No se encontró el usuario con el código: "+codigo);
+            this.lbMensaje.setForeground(Color.red);
+        }
+        
+        Toolkit.getDefaultToolkit().beep();
+
+        this.txtCodigo.setText("");
+        refreshTable();
     }
 }

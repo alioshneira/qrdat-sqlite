@@ -19,10 +19,10 @@ package pe.alinet;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import pe.alinet.barcodelist.BarcodeListService;
+import javax.swing.UIManager;
 import pe.alinet.barcodelist.BarcodeReaderFrame;
-import pe.alinet.usuarios.Usuario;
-import pe.alinet.usuarios.UsuarioService;
+import pe.alinet.grupos.Grupo;
+import pe.alinet.grupos.GrupoService;
 
 /**
  *
@@ -34,12 +34,52 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //Usuario u = UsuarioService.add("43062822", "ALIOSH NEIRA RAMIREZ");
-//        Usuario u = UsuarioService.getById("43062822");
-//        BarcodeListService.add(u);
-        BarcodeReaderFrame frame = new BarcodeReaderFrame();
-        frame.setVisible(true);
+        /* Crear grupo si es necesario */
+        Grupo g = GrupoService.getGroupByName("DEFAULT");
+        
+        if (g == null){
+            GrupoService.add("DEFAULT");
+        }
+        
+        
+        /* Iniciar aplicacion */
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(BarcodeReaderFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(BarcodeReaderFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(BarcodeReaderFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(BarcodeReaderFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new BarcodeReaderFrame().setVisible(true);
+            }
+        });
+        
     }
+
+    public static void persist(Object object) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("QRdatPU");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        try {
+            em.persist(object);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+    }
+    
+    
     
 }
 

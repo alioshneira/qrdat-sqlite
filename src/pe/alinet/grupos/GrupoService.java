@@ -37,6 +37,20 @@ public class GrupoService {
         persist(u);
     }
 
+
+    public static void add(String name, String description){
+        Grupo g = new Grupo();
+        g.setGroupname(name);
+        g.setGroupdesc(description);
+        persist(g);
+    }
+    
+    public static void add(String name){
+        Grupo g = new Grupo();
+        g.setGroupname(name);
+        persist(g);
+    }
+    
     public static void persist(Object object) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("QRdatPU");
         EntityManager em = emf.createEntityManager();
@@ -50,6 +64,16 @@ public class GrupoService {
         } finally {
             em.close();
         }
+    }
+
+    public static Grupo getGroupByName(String groupname) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("QRdatPU");
+        EntityManager em = emf.createEntityManager();
+        Grupo g = em.find(Grupo.class, groupname);
+        em.close();
+        
+        return g;
+        
     }
  
     

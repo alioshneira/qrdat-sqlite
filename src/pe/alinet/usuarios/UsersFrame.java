@@ -108,8 +108,7 @@ public class UsersFrame extends javax.swing.JFrame {
         String id, username;
         id =d.getId();
         username = d.getUsername();        
-        Usuario u = new Usuario(id,username);
-        persist(u);
+        UsuarioService.add(id, username);
         
         usuarioList.clear();
         usuarioList.addAll(usuarioQuery.getResultList());

@@ -9,7 +9,7 @@
     </Component>
     <Component class="javax.persistence.Query" name="barcodeListQuery">
       <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT b FROM BarcodeList b ORDER BY b.id  DESC"/>
+        <Property name="query" type="java.lang.String" value="SELECT b  FROM BarcodeList b ORDER BY b.id  DESC"/>
         <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
           <ComponentRef name="QRdatPUEntityManager"/>
         </Property>
@@ -209,7 +209,7 @@
                           <Editor/>
                           <Renderer/>
                         </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -224,12 +224,14 @@
                   <BindingProperties>
                     <BindingProperty name="elements" source="barcodeListList" target="tbBarcodeList" targetPath="elements" updateStrategy="0" immediately="true">
                       <Subbinding sourcePath="${id}">
-                        <BindingParameter name="NAME" value="Fecha y Hora"/>
+                        <BindingParameter name="NAME" value="Fecha y hora"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${usuario}">
-                        <BindingParameter name="NAME" value="Usuario"/>
+                        <BindingParameter name="NAME" value="Nombre de usuario"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="pe.alinet.usuarios.Usuario.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                     </BindingProperty>
                   </BindingProperties>

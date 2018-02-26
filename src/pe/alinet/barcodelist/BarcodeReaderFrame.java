@@ -64,7 +64,13 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
     public BarcodeReaderFrame() {
         initComponents();
         
+        //set cell renderer to first column
+        
+        
         tbBarcodeList.getColumnModel().getColumn(0).setCellRenderer(new DateTableCellRenderer());
+        tbBarcodeList.getColumnModel().getColumn(0).setMaxWidth(180);
+        tbBarcodeList.getColumnModel().getColumn(0).setMinWidth(150);
+
         Timer timer = new Timer(1000,this);
         timer.start();
         
@@ -102,7 +108,7 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         QRdatPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("QRdatPU").createEntityManager();
-        barcodeListQuery = java.beans.Beans.isDesignTime() ? null : QRdatPUEntityManager.createQuery("SELECT b FROM BarcodeList b ORDER BY b.id  DESC").setMaxResults(100);
+        barcodeListQuery = java.beans.Beans.isDesignTime() ? null : QRdatPUEntityManager.createQuery("SELECT b  FROM BarcodeList b ORDER BY b.id  DESC").setMaxResults(100);
         barcodeListList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(barcodeListQuery.getResultList());
         pMain = new javax.swing.JPanel();
         pSuperior = new javax.swing.JPanel();
@@ -181,14 +187,19 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, barcodeListList, tbBarcodeList);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName("Fecha y Hora");
+        columnBinding.setColumnName("Fecha y hora");
         columnBinding.setColumnClass(java.util.Date.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${usuario}"));
-        columnBinding.setColumnName("Usuario");
+        columnBinding.setColumnName("Nombre de usuario");
         columnBinding.setColumnClass(pe.alinet.usuarios.Usuario.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane2.setViewportView(tbBarcodeList);
+        if (tbBarcodeList.getColumnModel().getColumnCount() > 0) {
+            tbBarcodeList.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         pInferior.add(jScrollPane2);
 

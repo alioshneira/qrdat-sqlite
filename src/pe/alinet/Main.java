@@ -23,6 +23,7 @@ import javax.swing.UIManager;
 import pe.alinet.barcodelist.BarcodeReaderFrame;
 import pe.alinet.grupos.Grupo;
 import pe.alinet.grupos.GrupoService;
+import pe.alinet.usuarios.UsersFrame;
 
 /**
  *
@@ -58,7 +59,14 @@ public class Main {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BarcodeReaderFrame().setVisible(true);
+                if (args.length>0){
+                    if (args[0].equals("usuarios")){
+                        new UsersFrame().setVisible(true);
+                    }                    
+                }
+                else{
+                    new BarcodeReaderFrame().setVisible(true);
+                }
             }
         });
         

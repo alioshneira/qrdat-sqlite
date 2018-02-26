@@ -31,6 +31,7 @@ public class DateTableCellRenderer extends DefaultTableCellRenderer{
     public void setValue(Object value) {
         
         setText((value == null) ? "" : formatter.format(value));
+        setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     }   
     
 }

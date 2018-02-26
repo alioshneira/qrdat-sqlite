@@ -46,36 +46,48 @@ public class UsersFrame extends javax.swing.JFrame {
         usuarioQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT u FROM Usuario u");
         usuarioList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(usuarioQuery.getResultList());
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbUsers = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
-        btnAgregarUsuario = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, usuarioList, jTable1);
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, usuarioList, tbUsers);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
         columnBinding.setColumnName("Código");
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${username}"));
-        columnBinding.setColumnName("Apellidos y Nombres");
+        columnBinding.setColumnName("Nombre de usuario");
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${grupo}"));
         columnBinding.setColumnName("Grupo");
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbUsers);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        btnAgregarUsuario.setText("Agregar usuario");
-        btnAgregarUsuario.setFocusable(false);
-        btnAgregarUsuario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAgregarUsuario.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAgregarUsuario.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Agregar");
+        btnAdd.setFocusable(false);
+        btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarUsuarioActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jToolBar1.add(btnAgregarUsuario);
+        jToolBar1.add(btnAdd);
+
+        btnDelete.setText("Eliminar");
+        btnDelete.setFocusable(false);
+        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnDelete);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,17 +114,36 @@ public class UsersFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarUsuarioActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         AddUserDialog d = new AddUserDialog(this,true);
         d.setVisible(true);
-        String id, username;
-        id =d.getId();
-        username = d.getUsername();        
-        UsuarioService.add(id, username);
         
         usuarioList.clear();
         usuarioList.addAll(usuarioQuery.getResultList());
-    }//GEN-LAST:event_btnAgregarUsuarioActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        String codigo = (String) this.tbUsers.getModel().getValueAt(this.tbUsers.getSelectedRow(), 0);
+        Usuario u = this.entityManager.find(Usuario.class, codigo);
+        
+        int resp = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Esta seguro que desea eliminar el usuario: "+ u.getUsername(),
+                "Eliminar usuario",javax.swing.JOptionPane.YES_NO_OPTION);
+        
+        if (resp == javax.swing.JOptionPane.OK_OPTION){
+            entityManager.getTransaction().begin();
+            try {
+                entityManager.remove(u);
+                entityManager.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                entityManager.getTransaction().rollback();
+            }
+
+            usuarioList.clear();
+            usuarioList.addAll(usuarioQuery.getResultList());
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     
     /**
@@ -152,11 +183,12 @@ public class UsersFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregarUsuario;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable tbUsers;
     private java.util.List usuarioList;
     private javax.persistence.Query usuarioQuery;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

@@ -68,7 +68,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" max="32767" attributes="0"/>
+                      <Component id="cbGrupo" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -90,7 +90,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbGrupo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="36" max="32767" attributes="0"/>
@@ -128,9 +128,9 @@
         <Property name="text" type="java.lang.String" value="Grupo"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox1">
+    <Component class="javax.swing.JComboBox" name="cbGrupo">
       <BindingProperties>
-        <BindingProperty name="elements" source="list" target="jComboBox1" targetPath="elements" updateStrategy="0" immediately="false"/>
+        <BindingProperty name="elements" source="list" target="cbGrupo" targetPath="elements" updateStrategy="0" immediately="false"/>
       </BindingProperties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

@@ -28,6 +28,20 @@ import pe.alinet.grupos.GrupoService;
  */
 public class UsuarioService {
     
+    public static Usuario add(String username){
+        String id = String.valueOf(username.hashCode());            
+        Grupo g = GrupoService.getGroupByName("DEFAULT");
+        Usuario u = new Usuario(id, username, g);
+        persist(u);
+        return u;
+    }
+
+    public static Usuario add(String username, Grupo g){
+        String id = String.valueOf(username.hashCode());            
+        Usuario u = new Usuario(id, username, g);
+        persist(u);
+        return u;
+    }
     
     public static Usuario add(String id, String username){
         Grupo g = GrupoService.getGroupByName("DEFAULT");

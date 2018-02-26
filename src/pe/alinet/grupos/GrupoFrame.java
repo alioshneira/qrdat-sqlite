@@ -45,7 +45,8 @@ public class GrupoFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbGrupos = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
-        btnAgregar = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,16 +62,27 @@ public class GrupoFrame extends javax.swing.JFrame {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        btnAgregar.setText("Agregar");
-        btnAgregar.setFocusable(false);
-        btnAgregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAgregar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setText("Agregar");
+        btnAdd.setFocusable(false);
+        btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jToolBar1.add(btnAgregar);
+        jToolBar1.add(btnAdd);
+
+        btnDelete.setText("Eliminar");
+        btnDelete.setFocusable(false);
+        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnDelete);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,13 +109,38 @@ public class GrupoFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         AddGroupDialog d = new AddGroupDialog(this,true);
         d.setVisible(true);
         
         list.clear();
         list.addAll(query.getResultList());
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+
+        String groupname = (String) this.tbGrupos.getModel().getValueAt(this.tbGrupos.getSelectedRow(), 0);
+        Grupo g = this.entityManager.find(Grupo.class, groupname);
+        
+        int resp = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "Esta seguro que desea eliminar el grupo: "+ g.getGroupname(),
+                "Eliminar grupo",javax.swing.JOptionPane.YES_NO_OPTION);
+        
+        if (resp == javax.swing.JOptionPane.OK_OPTION){
+            entityManager.getTransaction().begin();
+            try {
+                entityManager.remove(g);
+                entityManager.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                entityManager.getTransaction().rollback();
+            }
+
+            list.clear();
+            list.addAll(query.getResultList());
+        }
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,7 +178,8 @@ public class GrupoFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;

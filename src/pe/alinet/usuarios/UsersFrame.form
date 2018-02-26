@@ -75,7 +75,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="tbUsers">
           <Properties>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
@@ -101,12 +101,12 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="usuarioList" target="jTable1" targetPath="elements" updateStrategy="0" immediately="true">
+            <BindingProperty name="elements" source="usuarioList" target="tbUsers" targetPath="elements" updateStrategy="0" immediately="true">
               <Subbinding sourcePath="${id}">
                 <BindingParameter name="NAME" value="C&#xf3;digo"/>
               </Subbinding>
               <Subbinding sourcePath="${username}">
-                <BindingParameter name="NAME" value="Apellidos y Nombres"/>
+                <BindingParameter name="NAME" value="Nombre de usuario"/>
               </Subbinding>
               <Subbinding sourcePath="${grupo}">
                 <BindingParameter name="NAME" value="Grupo"/>
@@ -124,15 +124,26 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="btnAgregarUsuario">
+        <Component class="javax.swing.JButton" name="btnAdd">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Agregar usuario"/>
+            <Property name="text" type="java.lang.String" value="Agregar"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarUsuarioActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnDelete">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Eliminar"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

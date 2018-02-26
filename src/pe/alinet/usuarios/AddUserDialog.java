@@ -16,31 +16,14 @@
  */
 package pe.alinet.usuarios;
 
+import javax.swing.JOptionPane;
+import pe.alinet.grupos.Grupo;
+
 /**
  *
  * @author Aliosh Neira <aliosh2006 at gmail.com>
  */
 public class AddUserDialog extends javax.swing.JDialog {
-
-    String id;
-    String username;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
     
     /**
      * Creates new form AgregarUsuarioDialog
@@ -69,7 +52,7 @@ public class AddUserDialog extends javax.swing.JDialog {
         txtUsername = new javax.swing.JTextField();
         btnOK = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbGrupo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,7 +69,7 @@ public class AddUserDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Grupo");
 
-        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, jComboBox1);
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, cbGrupo);
         bindingGroup.addBinding(jComboBoxBinding);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -112,7 +95,7 @@ public class AddUserDialog extends javax.swing.JDialog {
                         .addContainerGap()
                         .addComponent(jLabel3)
                         .addGap(114, 114, 114)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(cbGrupo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -128,7 +111,7 @@ public class AddUserDialog extends javax.swing.JDialog {
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(btnOK)
@@ -141,9 +124,20 @@ public class AddUserDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        setId(this.txtID.getText());
-        setUsername(this.txtUsername.getText());
-        this.dispose();
+        String id = this.txtID.getText();
+        String username = this.txtUsername.getText();
+        Grupo g = (Grupo) this.cbGrupo.getSelectedItem();
+        if (id.equals("") && username.equals("")){
+            JOptionPane.showMessageDialog(null, "Por favor ingrese el nombre de usuario");
+        }
+        else if (id.equals("")){
+            UsuarioService.add(username,g);
+            this.dispose();
+        }
+        else{
+            UsuarioService.add(id,username,g);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnOKActionPerformed
 
     /**
@@ -191,8 +185,8 @@ public class AddUserDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOK;
+    private javax.swing.JComboBox<String> cbGrupo;
     private javax.persistence.EntityManager entityManager;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

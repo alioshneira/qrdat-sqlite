@@ -68,8 +68,8 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
         
         
         tbBarcodeList.getColumnModel().getColumn(0).setCellRenderer(new DateTableCellRenderer());
-        tbBarcodeList.getColumnModel().getColumn(0).setMaxWidth(180);
-        tbBarcodeList.getColumnModel().getColumn(0).setMinWidth(150);
+        //tbBarcodeList.getColumnModel().getColumn(0).setMaxWidth(180);
+        //tbBarcodeList.getColumnModel().getColumn(0).setMinWidth(150);
 
         Timer timer = new Timer(1000,this);
         timer.start();
@@ -112,10 +112,10 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
         barcodeListList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(barcodeListQuery.getResultList());
         pMain = new javax.swing.JPanel();
         pSuperior = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        pFechaHora = new javax.swing.JPanel();
         lbTime = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        pCodigo = new javax.swing.JPanel();
+        lbCodigo = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         pInferior = new javax.swing.JPanel();
         pMensaje = new javax.swing.JPanel();
@@ -125,6 +125,7 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QRDAT 4.0");
+        setPreferredSize(new java.awt.Dimension(600, 720));
 
         pMain.setLayout(new java.awt.BorderLayout());
 
@@ -133,12 +134,12 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
 
         lbTime.setFont(lbTime.getFont().deriveFont(lbTime.getFont().getSize()+10f));
         lbTime.setText("00:00");
-        jPanel1.add(lbTime);
+        pFechaHora.add(lbTime);
 
-        pSuperior.add(jPanel1);
+        pSuperior.add(pFechaHora);
 
-        jLabel1.setText("Código:");
-        jPanel2.add(jLabel1);
+        lbCodigo.setText("Código:");
+        pCodigo.add(lbCodigo);
 
         txtCodigo.setFont(txtCodigo.getFont().deriveFont(txtCodigo.getFont().getSize()+5f));
         txtCodigo.setMinimumSize(new java.awt.Dimension(10, 20));
@@ -148,9 +149,9 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
                 txtCodigoActionPerformed(evt);
             }
         });
-        jPanel2.add(txtCodigo);
+        pCodigo.add(txtCodigo);
 
-        pSuperior.add(jPanel2);
+        pSuperior.add(pCodigo);
 
         pMain.add(pSuperior, java.awt.BorderLayout.PAGE_START);
 
@@ -161,7 +162,7 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
         pMensaje.setLayout(pMensajeLayout);
         pMensajeLayout.setHorizontalGroup(
             pMensajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGap(0, 538, Short.MAX_VALUE)
             .addGroup(pMensajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pMensajeLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -211,14 +212,14 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pMain, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pMain, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addComponent(pMain, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -278,12 +279,12 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
     private javax.persistence.EntityManager QRdatPUEntityManager;
     private java.util.List<pe.alinet.barcodelist.BarcodeList> barcodeListList;
     private javax.persistence.Query barcodeListQuery;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbCodigo;
     private javax.swing.JLabel lbMensaje;
     private javax.swing.JLabel lbTime;
+    private javax.swing.JPanel pCodigo;
+    private javax.swing.JPanel pFechaHora;
     private javax.swing.JPanel pInferior;
     private javax.swing.JPanel pMain;
     private javax.swing.JPanel pMensaje;
@@ -338,7 +339,7 @@ public class BarcodeReaderFrame extends javax.swing.JFrame implements ActionList
                     //this.lbOut.setText(qrscanner.getText());
                     
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
